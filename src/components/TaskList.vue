@@ -11,7 +11,8 @@
         </b-input-group>
         <b-card-group deck>
           <b-card v-for="(task, index) in filteredTasks" :key="task.id" class="mb-3" bg-variant="light">
-            <b-card-text>{{ task.name }}</b-card-text>
+            <b-form-input v-model="task.name" class="mb-2"></b-form-input>
+            <b-button variant="success" @click="updateTask(task)">Update</b-button>
             <b-button variant="danger" @click="deleteTask(index)">Delete</b-button>
           </b-card>
         </b-card-group>
@@ -30,7 +31,7 @@ export default {
     };
   },
   computed: {
-    filteredTasks(){
+    filteredTasks() {
       return this.tasks.filter(
         (task) => task.name.toLowerCase().includes(this.inputValue.toLowerCase())
       );
@@ -48,6 +49,9 @@ export default {
     },
     deleteTask(index) {
       this.$emit('delete-task', index);
+    },
+    updateTask(task) {
+      this.$emit('update-task', task.id, task.name);
     }
   }
 };
